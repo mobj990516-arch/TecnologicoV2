@@ -38,3 +38,4 @@ django-allauth
 dj-database-url
 psycopg2-binary
 gunicorn
+Pillow==11.2.1
