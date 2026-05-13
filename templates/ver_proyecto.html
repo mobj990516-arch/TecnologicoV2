@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+
+    <h2 class="fw-bold mb-3">{{ proyecto.titulo }}</h2>
+
+    <p class="mb-1"><strong>Autor:</strong> <span class="text-muted">{{ proyecto.autor }}</span></p>
+    <p class="mb-1"><strong>Categoría:</strong> <span class="text-muted">{{ proyecto.tipo }}</span></p>
+    <p class="mb-3">{{ proyecto.descripcion }}</p>
+
+    {% if proyecto.portada %}
+        <img src="{{ proyecto.portada.url }}" class="img-fluid rounded mb-3" style="max-height: 400px; object-fit: cover;">
+    {% endif %}
+
+    <!-- Sinopsis IA -->
+    {% if proyecto.sinopsis_ia %}
+        <h4 class="fw-bold mt-4 mb-2">Sinopsis IA</h4>
+        <p class="text-justify">{{ proyecto.sinopsis_ia }}</p>
+    {% endif %}
+
+    <!-- Vista previa PDF -->
+    {% if proyecto.archivo %}
+        <h4 class="fw-bold mt-4 mb-2">Vista previa del archivo</h4>
+        <div style="height: 600px; border: 1px solid #ddd; margin-bottom: 20px;">
+            <embed 
+                src="{{ proyecto.archivo.url }}" 
+                type="application/pdf" 
+                width="100%" 
+                height="100%">
+        </div>
+
+        <a href="{% url 'descargar' proyecto.id %}" class="btn btn-success mb-3">
+    Descargar archivo ({{ proyecto.descargas }})
+</a>
+
+
+    {% endif %}
+
+</div>
+{% endblock %}

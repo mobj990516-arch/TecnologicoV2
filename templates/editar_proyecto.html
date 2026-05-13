@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block contenido %}
+<div class="container mt-4">
+    <h2>Editar Proyecto</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.titulo.label_tag }} {{ form.titulo }}
+        {{ form.descripcion.label_tag }} {{ form.descripcion }}
+        {{ form.tipo.label_tag }} {{ form.tipo }}
+        {{ form.carrera.label_tag }} {{ form.carrera }}
+        {{ form.año.label_tag }} {{ form.año }}
+        
+        {% if form.instance.archivo %}
+            <p>Archivo actual: <a href="{{ form.instance.archivo.url }}" target="_blank">{{ form.instance.archivo.name }}</a></p>
+        {% endif %}
+        {{ form.archivo.label_tag }} {{ form.archivo }}
+        
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="{% url 'mis_proyectos' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

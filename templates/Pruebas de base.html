@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+<div class="container-fluid py-4">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold text-dark mb-1">Dashboard</h1>
+      <p class="text-muted mb-0">Resumen general de proyectos y actividad</p>
+    </div>
+
+    <button class="btn btn-primary shadow-sm px-4">
+      <i class="bi bi-plus-circle me-2"></i>Nuevo Proyecto
+    </button>
+  </div>
+
+  <!-- TARJETAS -->
+  <div class="row g-4 mb-5">
+
+    <!-- PROYECTOS -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Total Proyectos</p>
+              <h2 class="fw-bold">{{ total_proyectos }}</h2>
+            </div>
+
+            <div class="bg-primary bg-opacity-10 p-3 rounded-circle">
+              <i class="bi bi-folder-fill text-primary fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCARGAS -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Total Descargas</p>
+              <h2 class="fw-bold">{{ total_descargas }}</h2>
+            </div>
+
+            <div class="bg-success bg-opacity-10 p-3 rounded-circle">
+              <i class="bi bi-download text-success fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USUARIOS -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Usuarios</p>
+              <h2 class="fw-bold">128</h2>
+            </div>
+
+            <div class="bg-warning bg-opacity-10 p-3 rounded-circle">
+              <i class="bi bi-people-fill text-warning fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD -->
+    <div class="col-lg-3 col-md-6">
+      <div class="card border-0 shadow-lg rounded-4 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <p class="text-muted mb-1">Actividad</p>
+              <h2 class="fw-bold text-success">+24%</h2>
+            </div>
+
+            <div class="bg-danger bg-opacity-10 p-3 rounded-circle">
+              <i class="bi bi-graph-up-arrow text-danger fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TABLA -->
+  <div class="card border-0 shadow-lg rounded-4">
+
+    <div class="card-header bg-white border-0 pt-4 px-4">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+        <div>
+          <h4 class="fw-bold mb-1">Lista de Proyectos</h4>
+          <p class="text-muted mb-0">Administración de proyectos subidos</p>
+        </div>
+
+        <div class="d-flex gap-2">
+          <input type="text" class="form-control rounded-3" placeholder="Buscar proyecto...">
+
+          <button class="btn btn-dark rounded-3">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-body p-4">
+
+      <div class="table-responsive">
+
+        <table class="table align-middle table-hover">
+
+          <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Título</th>
+              <th>Autor</th>
+              <th>Fecha</th>
+              <th>Descargas</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for p in proyectos %}
+            <tr>
+
+              <td>
+                <span class="fw-bold text-secondary">
+                  {{ forloop.counter }}
+                </span>
+              </td>
+
+              <td>
+                <div class="d-flex align-items-center gap-3">
+
+                  <div class="bg-primary text-white rounded-circle d-flex justify-content-center align-items-center"
+                       style="width:45px; height:45px;">
+                    <i class="bi bi-folder-fill"></i>
+                  </div>
+
+                  <div>
+                    <h6 class="mb-0 fw-bold">{{ p.titulo }}</h6>
+                    <small class="text-muted">Proyecto académico</small>
+                  </div>
+
+                </div>
+              </td>
+
+              <td>
+                <span class="fw-semibold">{{ p.autor }}</span>
+              </td>
+
+              <td>
+                {{ p.fecha_subida|date:"d/m/Y" }}
+              </td>
+
+              <td>
+                <span class="badge bg-success fs-6">
+                  {{ p.descargas }}
+                </span>
+              </td>
+
+              <td>
+                <span class="badge bg-primary">
+                  Activo
+                </span>
+              </td>
+
+              <td>
+
+                <div class="d-flex gap-2">
+
+                  <button class="btn btn-sm btn-outline-primary rounded-3">
+                    <i class="bi bi-eye-fill"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-outline-warning rounded-3">
+                    <i class="bi bi-pencil-fill"></i>
+                  </button>
+
+                  <button class="btn btn-sm btn-outline-danger rounded-3">
+                    <i class="bi bi-trash-fill"></i>
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+
+body{
+    background: #f4f7fc;
+}
+
+/* TARJETAS */
+.card{
+    transition: 0.3s ease;
+}
+
+.card:hover{
+    transform: translateY(-5px);
+}
+
+/* TABLA */
+.table tbody tr:hover{
+    background: #f8fbff;
+}
+
+/* BOTONES */
+.btn{
+    transition: 0.3s ease;
+}
+
+.btn:hover{
+    transform: scale(1.03);
+}
+
+/* SOMBRAS */
+.shadow-lg{
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08)!important;
+}
+
+</style>
+
+{% endblock %}

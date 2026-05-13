@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Crear cuenta</h4>
+                </div>
+                <div class="card-body">
+
+                    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {% for campo in form %}
+    <div class="mb-3">
+        <label class="form-label">{{ campo.label }}</label>
+        {{ campo }}
+
+        {% if campo.errors %}
+            <div class="text-danger small">{{ campo.errors }}</div>
+        {% endif %}
+
+        {% comment %} Añadir checkbox solo para campos de contraseña {% endcomment %}
+        {% if campo.name == "password1" or campo.name == "password2" %}
+            <div class="form-check mt-1">
+                <input class="form-check-input" type="checkbox" id="show_{{ campo.name }}">
+                <label class="form-check-label" for="show_{{ campo.name }}">
+                    Mostrar contraseña
+                </label>
+            </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary w-100">Registrarme</button>
+</form>
+
+<script>
+    // Mostrar/ocultar password1
+    const pwd1 = document.getElementById('id_password1');
+    const show1 = document.getElementById('show_password1');
+    if (show1) {
+        show1.addEventListener('change', function() {
+            pwd1.type = this.checked ? 'text' : 'password';
+        });
+    }
+
+    // Mostrar/ocultar password2
+    const pwd2 = document.getElementById('id_password2');
+    const show2 = document.getElementById('show_password2');
+    if (show2) {
+        show2.addEventListener('change', function() {
+            pwd2.type = this.checked ? 'text' : 'password';
+        });
+    }
+</script>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock contenido %}

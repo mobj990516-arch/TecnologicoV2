@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block contenido %}
+<h2>Dashboard</h2>
+
+<div class="row mb-4">
+  <div class="col-md-4"><div class="p-3 bg-white rounded shadow-sm">Total proyectos: <strong>{{ total_proyectos }}</strong></div></div>
+  <div class="col-md-4"><div class="p-3 bg-white rounded shadow-sm">Total descargas: <strong>{{ total_descargas }}</strong></div></div>
+</div>
+
+<table class="table table-striped">
+  <thead><tr><th>Título</th><th>Autor</th><th>Fecha</th><th>Descargas</th></tr></thead>
+  <tbody>
+    {% for p in proyectos %}
+    <tr>
+      <td>{{ p.titulo }}</td>
+      <td>{{ p.autor }}</td>
+      <td>{{ p.fecha_subida|date:"d/m/Y" }}</td>
+      <td>{{ p.descargas }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

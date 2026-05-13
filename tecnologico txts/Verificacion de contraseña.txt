@@ -1,0 +1,3 @@
+cd C:\Users\mobj9\Desktop\Tecnologico-main
+venv\Scripts\activate
+python manage.py shell

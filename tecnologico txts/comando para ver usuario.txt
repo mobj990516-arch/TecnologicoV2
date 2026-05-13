@@ -1,0 +1,17 @@
+cd C:\Users\mobj9\Desktop\Tecnologico-main
+venv\Scripts\activate
+python manage.py changepassword admin
+en este proyecto el comando no funciono porque el usuario es diferente el nombre y use esto
+python manage.py shell
+from django.contrib.auth.models import User
+User.objects.all().values_list('username', flat=True)
+te mostrara algo como <QuerySet ['admin', 'cesar', 'juliosss']>
+python manage.py changepassword NOMBRE_USUARIO
+python manage.py createsuperuser
+en este caso el superusuario es admin contraseña:123456789
+http://127.0.0.1:8000/admin
+en este caso puse el comando para averiguar el usuario
+from proyectos.models import Usuario
+Usuario.objects.all().values_list('username', flat=True)
+y me salio esto solo es para averiguar los usuarios que exissten
+<QuerySet ['juliosss', 'juliossss', 'juliosssss']>

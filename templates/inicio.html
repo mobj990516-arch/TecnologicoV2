@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load proyecto_tags %}
+{% load static %}
+
+{% block contenido %}
+
+<style>
+    /* Barra de búsqueda */
+    .search-box {
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 18px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        margin-bottom: 30px;
+        border: 1px solid #e0e0e0;
+    }
+
+    .search-box input, .search-box select {
+        border-radius: 8px;
+        padding: 10px;
+    }
+
+    .search-box button {
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    /*  Cards */
+    .project-card {
+        transition: transform .2s ease, box-shadow .2s ease;
+        border-radius: 14px !important;
+        overflow: hidden;
+        background: #fff;
+    }
+
+    .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+    }
+
+    .card-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .project-badge {
+        font-size: 0.75rem;
+        background: #e9f2ff;
+        padding: 5px 10px;
+        border-radius: 12px;
+        color: #0056b3;
+        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 8px;
+    }
+
+    .card img {
+        border-bottom: 1px solid #ddd;
+    }
+</style>
+
+<h2 class="mb-4 fw-bold text-primary">Bienvenido a tu repositorio de proyectos</h2>
+
+<!-- 🔍 Filtro -->
+<div class="search-box">
+    <form method="get" class="row g-3">
+
+        <!-- Buscar por título -->
+        <div class="col-md-4">
+            <input name="q" value="{{ request.GET.q }}" class="form-control"
+                   placeholder="Buscar por título...">
+        </div>
+
+        <!-- Seleccionar tipo -->
+        <div class="col-md-3">
+            <select name="tipo" class="form-control">
+                <option value="">-- Tipo --</option>
+
+                <option value="Informe de Investigación"
+                    {% if request.GET.tipo == "Informe de Investigación" %}selected{% endif %}>
+                    Informe de Investigación
+                </option>
+
+                <option value="Proyecto de Investigación"
+                    {% if request.GET.tipo == "Proyecto de Investigación" %}selected{% endif %}>
+                    Proyecto de Investigación
+                </option>
+            </select>
+        </div>
+
+        <!-- Seleccionar carrera -->
+        <div class="col-md-3">
+            <select name="carrera" class="form-control">
+                <option value="">-- Carrera --</option>
+
+                <option value="Ingeniería en Sistemas Computacionales"
+                    {% if request.GET.carrera == "Ingeniería en Sistemas Computacionales" %}selected{% endif %}>
+                    Ingeniería en Sistemas Computacionales
+                </option>
+
+                <option value="Mecatrónica"
+                    {% if request.GET.carrera == "Mecatrónica" %}selected{% endif %}>
+                    Mecatrónica
+                </option>
+
+                <option value="Ingeniería en Sistemas Automotrices"
+                    {% if request.GET.carrera == "Ingeniería en Sistemas Automotrices" %}selected{% endif %}>
+                    Ingeniería en Sistemas Automotrices
+                </option>
+
+                <option value="Arquitectura"
+                    {% if request.GET.carrera == "Arquitectura" %}selected{% endif %}>
+                    Arquitectura
+                </option>
+
+                <option value="Contabilidad"
+                    {% if request.GET.carrera == "Contabilidad" %}selected{% endif %}>
+                    Contabilidad
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-1">
+            <button class="btn btn-primary w-100">Buscar</button>
+        </div>
+
+        <div class="col-md-1">
+            <a href="{% url 'inicio' %}" class="btn btn-secondary w-100">Limpiar</a>
+        </div>
+
+    </form>
+</div>
+
+<!-- 🎓 Lista de proyectos -->
+<div class="row">
+    {% for proyecto in proyectos %}
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm border-0 project-card h-100">
+
+            {% if proyecto.portada %}
+            <img src="{{ proyecto.portada.url }}" class="card-img-top" style="height:200px; object-fit:cover;">
+            {% else %}
+            <img src="{% static 'img/noimg.jpg' %}" class="card-img-top" style="height:200px; object-fit:cover;">
+            {% endif %}
+
+            <div class="card-body d-flex flex-column">
+
+                <span class="project-badge">
+                    {{ proyecto.tipo|default:"Sin tipo" }}
+                </span>
+
+                <h5 class="card-title">{{ proyecto.titulo }}</h5>
+
+                <p class="text-muted small mb-2">{{ proyecto.carrera }}</p>
+
+                <p class="card-text mb-3">{{ proyecto.descripcion|truncatewords:20 }}</p>
+
+                <a href="{% url 'ver_proyecto' proyecto.id %}" class="btn btn-primary w-100 mt-auto">
+                    Ver Proyecto
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {% empty %}
+    <p class="text-center text-muted">No hay proyectos para mostrar.</p>
+    {% endfor %}
+</div>
+
+<!-- 📄 Paginación -->
+<nav class="d-flex justify-content-center">
+    <ul class="pagination">
+        {% if proyectos.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ proyectos.previous_page_number }}">
+            Anterior
+</a>
+        </li>
+        {% endif %}
+
+        <li class="page-item disabled">
+            <span class="page-link">{{ proyectos.number }} / {{ proyectos.paginator.num_pages }}</span>
+        </li>
+
+        {% if proyectos.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ proyectos.next_page_number }}">
+                Siguiente
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

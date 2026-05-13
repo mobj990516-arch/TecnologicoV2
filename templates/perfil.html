@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block contenido %}
+<div class="container mt-4">
+
+    <h2 class="mb-4">Mi Perfil</h2>
+
+    <!-- NAV TABS -->
+    <ul class="nav nav-tabs mb-4" id="perfilTabs" role="tablist">
+
+        <!-- TAB VER PERFIL -->
+        <li class="nav-item">
+            <button class="nav-link active" id="ver-tab" data-bs-toggle="tab" data-bs-target="#ver"
+                    type="button" role="tab">
+                Datos del perfil
+            </button>
+        </li>
+
+        <!-- TAB EDITAR -->
+        <li class="nav-item">
+            <button class="nav-link" id="editar-tab" data-bs-toggle="tab" data-bs-target="#editar"
+                    type="button" role="tab">
+                Editar perfil
+            </button>
+        </li>
+
+        <!-- TAB CAMBIAR CONTRASEÑA -->
+        <li class="nav-item">
+            <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password"
+                    type="button" role="tab">
+                Cambiar contraseña
+            </button>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- =======================
+             TAB 1: VER PERFIL
+        ======================== -->
+        <div class="tab-pane fade show active" id="ver" role="tabpanel">
+
+            <div class="card p-4 shadow-sm">
+
+                <div class="text-center mb-4">
+                    <img src="{{ perfil_form.instance.avatar.url }}"
+                        class="rounded-circle"
+                        style="width: 180px; height: 180px; object-fit: cover;">
+                </div>
+
+                <h4 class="text-center">{{ request.user.first_name }} {{ request.user.last_name }}</h4>
+                <p class="text-center text-muted">@{{ request.user.username }}</p>
+
+                <hr>
+
+                <p><strong>Matrícula:</strong> {{ request.user.matricula }}</p>
+                <p><strong>Rol:</strong> {{ request.user.rol }}</p>
+                <p><strong>Email:</strong> {{ request.user.email }}</p>
+                <p><strong>Último acceso:</strong> {{ request.user.last_login }}</p>
+                <p><strong>Miembro desde:</strong> {{ request.user.date_joined }}</p>
+
+            </div>
+
+        </div>
+
+        <!-- =======================
+             TAB 2: EDITAR PERFIL
+        ======================== -->
+<div class="tab-pane fade" id="editar" role="tabpanel">
+
+    <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
+        {% csrf_token %}
+
+        <h4>Editar mis datos</h4>
+        <hr>
+
+        <h5>Datos del usuario</h5>
+        {{ usuario_form.as_p }}
+
+        <h5>Avatar</h5>
+        {{ perfil_form.as_p }}
+
+        <button class="btn btn-primary mt-3">Guardar cambios</button>
+    </form>
+
+</div>
+
+
+        <!-- =======================
+             TAB 3: CAMBIAR CONTRASEÑA
+        ======================== -->
+        <div class="tab-pane fade" id="password" role="tabpanel">
+
+            <div class="card p-4 shadow-sm">
+
+                <h4 class="mb-3">Cambiar contraseña</h4>
+
+                <a href="{% url 'password_change' %}" class="btn btn-warning">
+                    Ir al formulario de cambio de contraseña
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

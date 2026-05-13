@@ -1,0 +1,25 @@
+# Entorno virtual
+venv/
+.venv/
+
+# Archivos Python compilados
+__pycache__/
+*.py[cod]
+
+# Base de datos local
+db.sqlite3
+
+# Variables de entorno
+.env
+
+# IDEs
+.vscode/
+.idea/
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+
+# Distribuciones
+*.egg-info/

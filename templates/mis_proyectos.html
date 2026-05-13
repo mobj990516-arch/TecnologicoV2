@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block contenido %}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Mis Proyectos</h2>
+
+    {% if proyectos %}
+        <div class="list-group">
+
+            {% for p in proyectos %}
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <div>
+                        <a href="{% url 'ver_proyecto' p.id %}" class="text-decoration-none">
+                            <h5 class="mb-1">{{ p.titulo }}</h5>
+                        </a>
+                        <small class="text-muted">{{ p.tipo }} • {{ p.fecha_subida|date:"d/m/Y" }}</small>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-2">
+
+                        {% if p.portada %}
+                        <img src="{{ p.portada.url }}" alt="" style="height:60px;" class="rounded me-3">
+                        {% endif %}
+
+                        <!-- Botón Editar -->
+                        <a href="{% url 'editar_proyecto' p.id %}" class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <!-- Botón Eliminar -->
+                        <form action="{% url 'eliminar_proyecto' p.id %}" method="post" onsubmit="return confirm('¿Seguro que deseas eliminar este proyecto?');">
+                            {% csrf_token %}
+                            <button class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+        <p class="text-muted">No has subido ningún proyecto todavía.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block contentenido %}
+<div class="container mt-4">
+    <h2>Generar Sinopsis con IA</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Texto a analizar:</label>
+            <textarea name="texto" class="form-control" rows="8" placeholder="Pega aquí tu texto..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Generar Sinopsis</button>
+    </form>
+
+    {% if sinopsis %}
+        <hr>
+        <h4>Sinopsis generada:</h4>
+        <div class="alert alert-secondary" style="white-space: pre-wrap;">
+            {{ sinopsis }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
