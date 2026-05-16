@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.db import models
 import csv, os, mimetypes
+from django.shortcuts import render
 
 from .models import Proyecto, Perfil, Usuario
 from .forms import ProyectoForm, RegistroForm, PerfilForm, UsuarioForm
@@ -202,11 +203,29 @@ def registro(request):
             user = form.save()
 
             send_mail(
-                "Bienvenido",
-                f"Hola {user.first_name}, tu cuenta fue creada exitosamente.",
-                "tu_correo@gmail.com",
-                [user.email],
-            )
+    subject="Bienvenido a Repositorios Instituto Tecnológico",
+
+    message=f"""
+Hola {user.first_name},
+
+Tu cuenta fue creada exitosamente en Repositorios Instituto Tecnológico.
+
+Ahora puedes:
+- Subir proyectos
+- Descargar investigaciones
+- Gestionar tu perfil
+
+Gracias por registrarte.
+
+Equipo de Repositorios Instituto Tecnológico
+""",
+
+    from_email=None,
+
+    recipient_list=[user.email],
+
+    fail_silently=False,
+)
 
             messages.success(request, "Registro exitoso.")
             return redirect("login")
@@ -301,3 +320,19 @@ def generar_sinopsis_view(request):
     return render(request, "generar_sinopsis.html", {"sinopsis": sinopsis})
 
 
+# =========================================
+# Informacion de la pagina (nuevo inicio)
+# =========================================
+def informacion(request):
+    return render(request, 'informacion.html')
+
+# =========================================
+# GUIA
+# =========================================
+def guia(request):
+    return render(request, 'guia.html')
+# =========================================
+# Pagina de mision informacion
+# =========================================
+def mision(request):
+    return render(request, 'mision.html')

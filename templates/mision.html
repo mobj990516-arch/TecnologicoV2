@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container mt-5 mb-5">
+
+  <div class="text-center mb-5">
+    <h1>Repositorio Instituto Tecnológico</h1>
+    <p class="lead">
+      Plataforma digital para almacenar, consultar y compartir proyectos académicos.
+    </p>
+  </div>
+
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h4 class="card-title text-primary">Misión</h4>
+          <p class="card-text">
+            Facilitar el acceso, organización y preservación de proyectos académicos
+            desarrollados por estudiantes del Instituto Tecnológico, promoviendo la
+            consulta, difusión y aprovechamiento del conocimiento.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h4 class="card-title text-primary">Visión</h4>
+          <p class="card-text">
+            Ser una plataforma confiable y accesible que impulse la investigación,
+            innovación y colaboración académica dentro de la comunidad estudiantil.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h4 class="card-title text-primary">Objetivo</h4>
+          <p class="card-text">
+            Centralizar los proyectos académicos en un repositorio digital que permita
+            su búsqueda, consulta, descarga y administración de forma sencilla.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card shadow mt-5">
+    <div class="card-body">
+      <h3 class="text-primary">Objetivos específicos</h3>
+
+      <ul class="mt-3">
+        <li>Permitir a los estudiantes subir proyectos académicos.</li>
+        <li>Organizar los proyectos por carrera, año y tipo de documento.</li>
+        <li>Facilitar la búsqueda y consulta de investigaciones.</li>
+        <li>Promover la preservación digital del conocimiento académico.</li>
+        <li>Brindar una plataforma sencilla para estudiantes y administradores.</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endblock contenido %}

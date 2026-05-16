@@ -13,52 +13,51 @@
 
                     <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+  <!-- ojo invisible de google siendo bloqueado -->
+<style>
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+    display: none;
+}
+</style>
+
 
     {% for campo in form %}
-    <div class="mb-3">
-        <label class="form-label">{{ campo.label }}</label>
-        {{ campo }}
+<div class="mb-3">
+    <label class="form-label">{{ campo.label }}</label>
+{% if campo.name == "password1" or campo.name == "password2" %}
+<div class="input-group">
+    {{ campo }}
+    <button type="button" class="btn btn-outline-secondary"
+        onclick="togglePassword('{{ campo.id_for_label }}', this)">
+        👁
+    </button>
+</div>
+{% else %}
+{{ campo }}
+{% endif %}
 
-        {% if campo.errors %}
-            <div class="text-danger small">{{ campo.errors }}</div>
-        {% endif %}
-
-        {% comment %} Añadir checkbox solo para campos de contraseña {% endcomment %}
-        {% if campo.name == "password1" or campo.name == "password2" %}
-            <div class="form-check mt-1">
-                <input class="form-check-input" type="checkbox" id="show_{{ campo.name }}">
-                <label class="form-check-label" for="show_{{ campo.name }}">
-                    Mostrar contraseña
-                </label>
-            </div>
-        {% endif %}
-    </div>
-    {% endfor %}
+    {% if campo.errors %}
+        <div class="text-danger small">{{ campo.errors }}</div>
+    {% endif %}
+</div>
+{% endfor %}
 
     <button type="submit" class="btn btn-primary w-100">Registrarme</button>
 </form>
-
 <script>
-    // Mostrar/ocultar password1
-    const pwd1 = document.getElementById('id_password1');
-    const show1 = document.getElementById('show_password1');
-    if (show1) {
-        show1.addEventListener('change', function() {
-            pwd1.type = this.checked ? 'text' : 'password';
-        });
-    }
+function togglePassword(id, btn) {
+    const input = document.getElementById(id);
 
-    // Mostrar/ocultar password2
-    const pwd2 = document.getElementById('id_password2');
-    const show2 = document.getElementById('show_password2');
-    if (show2) {
-        show2.addEventListener('change', function() {
-            pwd2.type = this.checked ? 'text' : 'password';
-        });
+    if (input.type === "password") {
+        input.type = "text";
+        btn.innerHTML = "🙈";
+    } else {
+        input.type = "password";
+        btn.innerHTML = "👁";
     }
+}
 </script>
-
-
                 </div>
             </div>
         </div>

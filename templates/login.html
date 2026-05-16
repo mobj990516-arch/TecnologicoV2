@@ -3,11 +3,21 @@
 {% block contenido %}
 <div class="row justify-content-center">
   <div class="col-md-4">
-    <h3>Iniciar sesión</h3>
+
+    <h3 class="text-center">Iniciar sesión</h3>
 
     <form method="post">
       {% csrf_token %}
-      {{ form.as_p }}
+
+      <div class="mb-3">
+        <label class="form-label">Usuario</label>
+        {{ form.username }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Contraseña</label>
+        {{ form.password }}
+      </div>
 
       <button class="btn btn-primary w-100" type="submit">
         Entrar
@@ -18,6 +28,7 @@
           ¿Olvidaste tu contraseña?
         </a>
       </div>
+
     </form>
 
   </div>

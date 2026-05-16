@@ -1,10 +1,14 @@
 # proyectos/forms.py
 from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 from .models import Proyecto
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User 
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from .models import Usuario
 from .models import Perfil
+
+
 
 CARRERA_CHOICES = [
     ("Ingeniería en Sistemas Computacionales", "Ingeniería en Sistemas Computacionales"),
@@ -37,8 +41,48 @@ class ProyectoForm(forms.ModelForm):
         }
 
 class RegistroForm(UserCreationForm):
-    matricula = forms.CharField(max_length=20)
-    avatar = forms.ImageField(required=False)
+    matricula = forms.CharField(
+        max_length=20,
+        widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    avatar = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={"class": "form-control"})
+    )
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['password1'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Ingrese contraseña',
+    'autocomplete': 'new-password'
+})
+
+        self.fields['password2'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Confirme contraseña',
+    'autocomplete': 'new-password'
+})
+        self.fields['first_name'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Nombre'
+})
+
+        self.fields['last_name'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Apellidos'
+})
+
+        self.fields['email'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Correo electrónico'
+})
+
+        self.fields['username'].widget.attrs.update({
+    'class': 'form-control',
+    'placeholder': 'Usuario'
+})
 
     class Meta:
         model = Usuario
@@ -60,33 +104,34 @@ class RegistroForm(UserCreationForm):
         }
 
         
-def clean(self):
-    cleaned = super().clean()
-    if cleaned.get("password") != cleaned.get("password2"):
-         raise forms.ValidationError("Las contraseñas no coinciden.")
-    return cleaned
+    def clean(self):
+        cleaned = super().clean()
+        if cleaned.get("password1") != cleaned.get("password2"):
+            raise forms.ValidationError("Las contraseñas no coinciden.")
+        return cleaned
 
 
-def clean_email(self):
-    email = self.cleaned_data["email"]
-    if User.objects.filter(email=email).exists():
-        raise forms.ValidationError("Este email ya está registrado.")
-    return email
+    def clean_email(self):
+        email = self.cleaned_data["email"]
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Este email ya está registrado.")
+        return email
 
-def save(self, commit=True):
+    def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
+        user.set_password(self.cleaned_data["password1"])
 
         if commit:
             user.save()
-            perfil = Perfil.objects.create(
-                user=user,
-                matricula=self.cleaned_data["matricula"],
-                avatar=self.cleaned_data.get("avatar") or "avatars/default.png",
-                rol="estudiante",  # por defecto
-            )
-        return user
 
+            perfil, created = Perfil.objects.get_or_create(
+                usuario=user,
+                defaults={
+                    "avatar": self.cleaned_data.get("avatar") or "avatars/default.png"
+                }
+            )
+
+        return user
 
 class PerfilForm(forms.ModelForm):
     class Meta:
@@ -107,3 +152,22 @@ class UsuarioForm(forms.ModelForm):
             "email": forms.EmailInput(attrs={"class": "form-control"}),
             "username": forms.TextInput(attrs={"class": "form-control"}),
         }
+
+# ------------------------------------
+# Cuadros correctos hechos de manera manual 
+# ------------------------------------
+class LoginForm(AuthenticationForm):
+
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingrese usuario'
+        })
+    )
+
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Ingrese contraseña'
+        })
+    )

@@ -27,7 +27,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "yuliosssss.pythonanywhere.com"]
 
 LANGUAGE_CODE = "es"
 USE_I18N = True
@@ -151,7 +151,7 @@ SITE_NAME = "Repositorio Tecnologico"
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'username*', 'password1*', 'password2*']
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "inicio"
 
 GEMINI_API_KEY = config("GEMINI_API_KEY", default=None)
 

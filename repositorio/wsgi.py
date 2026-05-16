@@ -14,3 +14,12 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'repositorio.settings')
 
 application = get_wsgi_application()
+#codigo para la pagina web
+#import sys
+#import os
+
+#path = '/home/yuliosssss/TecnologicoV2'
+#if path not in sys.path:
+#    sys.path.append(path)
+
+#os.environ['DJANGO_SETTINGS_MODULE'] = 'repositorio.settings'

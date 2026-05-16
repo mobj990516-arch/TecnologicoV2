@@ -74,6 +74,17 @@
             color: white!important;
             transform: translateY(-2px);
         }
+        
+ .custom-navbar{
+    background: transparent !important;
+    transition: all 0.4s ease;
+    padding: 18px 0;
+}
+
+.custom-navbar.scrolled{
+    background: linear-gradient(135deg, #0d6efd, #003f88)!important;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+}
 
         /* ===== PERFIL ===== */
 
@@ -215,7 +226,7 @@
 <!-- ===== NAVBAR ===== -->
 
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
-
+    
     <div class="container">
 
         <!-- LOGO -->
@@ -271,8 +282,16 @@
 
                     </li>
 
-                    <!-- LINKS -->
 
+                    
+                    <!-- LINKS -->
+                    <li class="nav-item">
+    <a class="nav-link"
+       href="/repositorio/">
+        <i class="bi bi-house-door me-1"></i>
+        Inicio
+    </a>
+</li>
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'mis_proyectos' %}">
@@ -280,6 +299,7 @@
                             Mis Proyectos
                         </a>
                     </li>
+                    
 
                     <li class="nav-item">
                         <a class="nav-link"
@@ -321,6 +341,14 @@
                 {% else %}
 
                     <!-- INVITADO -->
+                    <li class="nav-item">
+    <a class="nav-link"
+       href="{% url 'informacion' %}">
+        <i class="bi bi-house-door me-1"></i>
+        Inicio
+    </a>
+</li>
+
 
                     <li class="nav-item">
                         <a class="nav-link"
@@ -330,15 +358,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item ms-lg-2">
-                        <a class="btn btn-light btn-custom"
-                           href="{% url 'registro' %}">
-
-                            <i class="bi bi-person-plus-fill me-1"></i>
-                            Registrarme
-
-                        </a>
-                    </li>
+                     
 
                 {% endif %}
 
@@ -352,7 +372,15 @@
 
 <!-- ===== CONTENIDO ===== -->
 
+{% if request.path == '/' %}
+
+<div class="main-full">
+
+{% else %}
+
 <div class="container main-container mb-5">
+
+{% endif %}
 
     {% block contenido %}
     {% endblock %}
@@ -397,6 +425,25 @@
     }, 4000);
 
 </script>
+<!-- Navdar personalizado-->
+<script>
 
+const navbar = document.querySelector(".custom-navbar");
+
+navbar.style.transform = "translateY(-100%)";
+
+window.addEventListener("scroll", function(){
+
+    if(window.scrollY > 50){
+        navbar.classList.add("scrolled");
+        navbar.style.transform = "translateY(0)";
+    }else{
+        navbar.classList.remove("scrolled");
+        navbar.style.transform = "translateY(-100%)";
+    }
+
+});
+
+</script>
 </body>
 </html>
