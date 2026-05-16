@@ -24,22 +24,50 @@ input[type="password"]::-ms-clear {
 
     {% for campo in form %}
 <div class="mb-3">
+
     <label class="form-label">{{ campo.label }}</label>
-{% if campo.name == "password1" or campo.name == "password2" %}
-<div class="input-group">
-    {{ campo }}
-    <button type="button" class="btn btn-outline-secondary"
-        onclick="togglePassword('{{ campo.id_for_label }}', this)">
-        👁
-    </button>
-</div>
-{% else %}
-{{ campo }}
-{% endif %}
+
+    {% if campo.name == "password1" or campo.name == "password2" %}
+    <div class="input-group">
+        {{ campo }}
+        <button type="button" class="btn btn-outline-secondary"
+            onclick="togglePassword('{{ campo.id_for_label }}', this)">
+            👁
+        </button>
+    </div>
+    {% else %}
+        {{ campo }}
+    {% endif %}
+
+    <!-- INFORMACION DE CONTRASEÑA -->
+    {% if campo.name == "password1" %}
+    <div class="form-text">
+        La contraseña debe cumplir con lo siguiente:
+        <ul class="mb-0">
+            <li>No debe parecerse a tus datos personales.</li>
+            <li>Debe tener al menos 8 caracteres.</li>
+            <li>No debe ser una contraseña común.</li>
+            <li>No debe contener solo números.</li>
+            <li>Debe contener al menos una letra en minusculas.</li>
+        </ul>
+    </div>
+    {% endif %}
 
     {% if campo.errors %}
-        <div class="text-danger small">{{ campo.errors }}</div>
+        <div class="text-danger small">
+            {{ campo.errors }}
+        </div>
     {% endif %}
+        {% if campo.name == "email" %}
+<div class="form-text">
+    Solo se permiten correos Gmail para el registro.
+</div>
+{% endif %}
+{% if campo.name == "matricula" %}
+<div class="form-text">
+    La matrícula debe contener exactamente 9 dígitos.
+</div>
+{% endif %}
 </div>
 {% endfor %}
 
